@@ -3,7 +3,7 @@ import requests
 import csv
 import time
 
-
+#start
 def main():
     print('Started...')
     startTime = time.time()
