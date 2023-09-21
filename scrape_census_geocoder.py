@@ -8,10 +8,11 @@ def main():
     print('Started...')
     startTime = time.time()
     # open source file to generate urls
-    input_file = 'Wes Project/new data file.csv'
+    input_file = 'Wes Project/lat_long_fix_mpv.csv'
     # 2018 is vintage=418; 2010 is 410
-    vintage = 418
-    output_file = 'results_wp_2018.csv' #rename for each iteration to create 4 different files
+    vintage = 410
+    # rename for each iteration to create 4 different files
+    output_file = 'results_mpv_2010_lat_long_fix.csv'
     # write headers to result file outside of loop
     with open(output_file, mode='w') as results:
         fieldnames = ['id', 'longitude_wp', 'latitude_wp', 'cousubgeoid_wp',
@@ -22,9 +23,10 @@ def main():
     with open(input_file) as csvfile:
         file = csv.DictReader(csvfile)
         for row in file:
-            long = row['longitude_wp']
-            lat = row['latitude_wp']
-            row_id = row['\ufeffwapo_id']
+            # print(row)
+            long = row['longitude_mpv']
+            lat = row['latitude_mpv']
+            row_id = row['\ufeffid']
             if lat and long:
                 url = f"https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x={long}&y={lat}&benchmark=4&vintage={vintage}"
 
@@ -79,7 +81,7 @@ def get_data(soup, id, long, lat):
             result_list.append(soup[i + 1])
         if 'TRACT CODE' in x:
             result_list.append(soup[i + 1])
-    
+
     # narrow list down to those we need
     for ind, item in enumerate(result_list):
         if 'County Subd' in item:
